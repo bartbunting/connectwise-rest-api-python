@@ -143,9 +143,11 @@ class Client(object):
 
 from connectwise import company
 from connectwise import service
+from connectwise import system
 from connectwise import time
 Client.company = company
 Client.service = service
+Client.system = system
 Client.time = time
 
 
