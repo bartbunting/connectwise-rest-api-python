@@ -46,6 +46,7 @@ class Client(object):
 
         self._default_headers = {"Authorization": "Basic %s" % auth_token,
                                  "Content-Type": "application/json"}
+        self._default_headers_files = {"Authorization": "Basic %s" % auth_token}
         self.base_url = base_url
         self.api_url = "https://{base_url}/v4_6_release/apis/3.0".format(base_url=self.base_url)
 
@@ -62,12 +63,19 @@ class Client(object):
     def _get(self, url, parameters):
         full_path = self.api_url + url
         resp = self.connection.get(full_path, params=parameters)
-        print("Calling URL: {}".format(resp.url))
+        #print("Calling URL: {}".format(resp.url))
         return resp
 
     def _post(self, url, json):
         full_path = self.api_url + url
         return self.connection.post(full_path, json=json)
+
+    def _post_doc(self, url, json, filenames):
+        full_path = self.api_url + url
+        self.connection.headers = self._default_headers_files
+        request = self.connection.post(full_path, data=json, files=filenames)
+        self.connection.headers = self._default_headers
+        return request
 
     def _patch(self, url, json, verbose=False):
         if verbose is True: print("Patching {} with Data: {}".format(url, json))
