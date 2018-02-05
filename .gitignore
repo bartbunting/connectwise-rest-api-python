@@ -75,3 +75,4 @@ test - private
 # Future release - testing
 .travis.yml
 tox.ini
+*~
